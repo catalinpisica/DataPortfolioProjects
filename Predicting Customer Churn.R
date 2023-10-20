@@ -1,44 +1,12 @@
-# Install relevant packages
+# Install and load required packages
+required_packages <- c("ggplot2", "dplyr", "tidyr", "visdat", "stringr", "ISOweek", "moments", "outliers", "ggpubr", "corrplot", "Hmisc", "ROCR", "readr", "MASS", "rpart", "partykit", "ipred", "caret", "gbm", "randomForest", "e1071")
 
-install.packages("ggplot2")
-install.packages("ggplot")
-install.packages("dplyr")
-install.packages("tidyr")
-install.packages("visdat")
-install.packages("stringr")
-install.packages("ISOweek")
-install.packages("moments")
-install.packages("outliers")
-install.packages("ggpubr")
-install.packages("moments")
-install.packages("corrplot")
-install.packages("Hmisc")
-install.packages("ROCR")
+# Install missing packages
+missing_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+if(length(missing_packages) > 0) install.packages(missing_packages)
 
-# Load packages
-library(readr)
-library(ggplot2)
-library(dplyr)
-library(tidyr)
-library(visdat)
-library(stringr)
-library(ISOweek)
-library(moments)
-library(outliers)
-library(ggpubr)
-library(moments)
-library(lessR)
-library(corrplot)
-library(Hmisc)
-library(ROCR)
-library(MASS) 
-library(rpart)
-library(partykit)
-library(ipred)
-library(caret)
-library(gbm)
-library(randomForest)
-library(e1071)
+# Load required packages
+lapply(required_packages, library, character.only = TRUE)
 
 # Clean the workspace
 rm(list = ls())
@@ -52,24 +20,10 @@ head(data)
 str(data)
 summary(data)
 
-## Convert data types to factors ----
-data$Gender <- as.factor(data$Gender)
-data$Home_label <- as.factor(data$Home_label)
-data$Start_channel <- as.factor(data$Start_channel)
-data$Province <- as.factor(data$Province)
-
-## Convert data types to numeric ----
-data$Relation_length<-as.numeric(data$Relation_length)
-data$Churn<-as.numeric(data$Churn)
-data$Income <- as.numeric(data$Income)
-data$Gas_usage <- as.numeric(data$Gas_usage)
-data$Age <- as.numeric(data$Age)
-data$Customer_ID <- as.numeric(data$Customer_ID)
-data$Contract_length <- as.numeric(data$Contract_length)
-data$Home_age <- as.numeric(data$Home_age)
-data$Electricity_usage <- as.numeric(data$Electricity_usage)
-data$Email_list <- as.numeric(data$Email_list)
-
+# Convert data types to factors and numeric
+data <- data %>%
+  mutate_if(is.character, as.factor) %>%
+  mutate_if(is.numeric, as.numeric)
 
 # Data cleaning ----
 ## Check for duplicates ----
@@ -149,7 +103,7 @@ cols =  hcl.colors(length(levels(start_channel)), "Fall")
 PieChart(start_channel, data = data, hole = 0,fill = cols,labels_cex = 0.6)
 
 
-### CONTRACT LENGHT
+### CONTRACT LENGTH
 summary(data$Contract_length)
 sum(data$Contract_length == 0) #7786 customers can leave without paying any fee
 table(data$Contract_length)
@@ -214,7 +168,7 @@ data$exit_fee = ifelse(data$Contract_length == 0,0,1)
 
 
 
-#Exploratory Analysis
+#Exploratory Analysis-----------------------------------------------------------------------------------------------------------------------------------------------
 ## Reporting
 ## Descriptive statistics for continuous variables
 by(data, data$Churn, summary)
@@ -338,7 +292,7 @@ corrplot(res2, type = "upper", order = "hclust",
 
 
 
-# MODELING
+# MODELING -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Split the dataset into a 75% Estimation and a 25% Validation Sample
 set.seed(1234)
