@@ -1,3 +1,36 @@
+# -------- Predicting Customer Churn in the Dutch Energy Sector --------
+
+# Author: Catalin Pisica
+# Email: catalinpisica5@gmail.com
+# Phone Number: +31 687 627 954
+# LinkedIn: https://www.linkedin.com/in/catalinpisica5
+# Portfolio: https://catalinpisica.github.io/
+
+# Project Information
+
+#The primary concern of the Dutch energy supplier is the fact that there is a churn factor that is
+#quite prominent in its relationship with its customers. What is more, competition in the energy
+#market itself is quite rigid, consisting of more people who switch from one provider to another,
+#and fewer people entering with an influx of new customers. This project aims to build several 
+#classification models and evaluate them through different evaluation metrics.
+#In this project, 7 types of modeling techniques are implemented: Logistic Regression, Step-Wise
+#Logistic Regression, Support Vector Machines, Random Forest, Boosting, Bagging and CART.
+#All types of models were first estimated on an Estimation Dataset which consisted of 75% of all
+#observations and then validated on a Validation Dataset (25%).
+
+#The validation process is a process through which the quality of a model is evaluated. For all
+#models, this process consisted of calculating the Hit-Rate, Top Decile Lift and GINI Coefficient.
+#The values for the Hit-Rate should be higher than 0.5, Top Decile Lift is good to have values
+#close to 2 and the GINI Coefficient to 1 as well. 
+
+# Project Outcome
+#Based on these coefficients, the best model that
+#can be used for churn prediction is the Boosting technique, that obtained a 0.7643414 Hit-Rate,
+#1.920015 Top Decile Lift and 0.6901542 GINI Coefficient which means that the model is almost
+#twice as good than a random selection. 
+
+
+
 # Install and load required packages
 required_packages <- c("ggplot2", "dplyr", "tidyr", "visdat", "stringr", "ISOweek", "moments", "outliers", "ggpubr", "corrplot", "Hmisc", "ROCR", "readr", "MASS", "rpart", "partykit", "ipred", "caret", "gbm", "randomForest", "e1071")
 
